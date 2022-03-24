@@ -1,0 +1,14 @@
+{
+  "port": 8080,
+  "mappings": [{
+    "match": "^/(node_modules|.gitignore|LICENSE|package|README|reserve).*",
+    "status": 403
+  }, {
+    "match": "^/(.*)",
+    "file": "./$1.html",
+    "ignore-if-not-found": true
+  }, {
+    "match": "^/(.*)",
+    "file": "./$1"
+  }]
+}
