@@ -1,72 +1,7 @@
 <html>
   <head>
-    <style>
-.sprite {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background-color: red;
-  left: 100px;
-  top: 100px;
-}
-    </style>
-    <script>
-
-let lastFpsDisplayTick = performance.now()
-let lastFrameCount = 0
-
-const particles = new Array(10).fill(null)
-const PI2FP = Math.floor(2 * Math.PI * 100000)
-const PRECISION = 10000
-const cos = []
-const sin = []
-
-function paint () {
-  const tick = performance.now()
-  ++lastFrameCount
-
-  const width = window.innerWidth
-  const height = window.innerHeight
-  const cx = width / 2
-  const cy = height / 2
-  const size = Math.min(cx, cy) / 2
-  const offset = Math.floor(tick / 1000)
-
-  particles.forEach(({ sprite, radius, radians }) => {
-    const adjustedRadians = (radians + offset) % PI2FP
-    const x = cx + (size * radius / 100 * cos[adjustedRadians] / PRECISION)
-    const y = cy + (size * radius / 100 * sin[adjustedRadians] / PRECISION)
-    sprite.setAttribute('style', `left: ${x}px; top: ${y}px;`)
-  })
-
-  const ticksSpentSinceLastFpsDisplay = tick - lastFpsDisplayTick
-  if (ticksSpentSinceLastFpsDisplay > 500) {
-    const fps = Math.floor(1000 * lastFrameCount / ticksSpentSinceLastFpsDisplay)
-    document.getElementById('fps').innerHTML = fps.toString()
-    lastFpsDisplayTick = tick
-    lastFrameCount = 0
-  }
-  window.requestAnimationFrame(paint)
-}
-
-function setup () {
-  particles.forEach((_, index) => {
-    const sprite = document.body.appendChild(document.createElement('div'))
-    sprite.className = 'sprite'
-    const radius = Math.floor(Math.random() * 100)
-    const radians = Math.floor(Math.random() * PI2FP)
-    particles[index] = { sprite, radius, radians }
-  })
-  for (i = 0; i < PI2FP; ++i) {
-    cos[i] = Math.floor(PRECISION * Math.cos(i))
-    sin[i] = Math.floor(PRECISION * Math.sin(i))
-  }
-  paint()
-}
-
-    </script>
+    <link rel="stylesheet" href="particles.css">
+    <script src="particles.js" type="module"></script>
   </head>
-  <body onload="setup()">
-    <div id="fps"></div>
-  </body>
+  <body></body>
 </html>

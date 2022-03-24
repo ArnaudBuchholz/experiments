@@ -1,0 +1,8 @@
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: red;
+  left: 100px;
+  top: 100px;
+}
