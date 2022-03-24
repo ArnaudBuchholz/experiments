@@ -1,0 +1,22 @@
+{
+  "name": "experiments",
+  "version": "1.0.0",
+  "description": "HTML experiments",
+  "main": "index.js",
+  "scripts": {
+    "start": "reserve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArnaudBuchholz/experiments.git"
+  },
+  "author": "Arnaud Buchholz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ArnaudBuchholz/experiments/issues"
+  },
+  "homepage": "https://github.com/ArnaudBuchholz/experiments#readme",
+  "devDependencies": {
+    "reserve": "^1.14.0"
+  }
+}
