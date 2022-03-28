@@ -1,0 +1,17 @@
+body {
+  background-color: black;
+  color: gray;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+div.fps {
+  position: absolute;
+  right: 1rem;
+  top: 0;
+  font-size: x-large;
+}
+
+div.fps::after {
+  content: 'f/s';
+  font-size: small;
+}
