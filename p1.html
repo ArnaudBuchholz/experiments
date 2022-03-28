@@ -13,8 +13,8 @@ function fill () {
   particles.forEach((_, index) => {
     if (_ === null) {
       const sprite = document.body.appendChild(document.createElement('div'))
-      sprite.className = 'particle'
       const radius = Math.random()
+      sprite.className = `particle g${Math.floor(6 * radius)}`
       const radians = Math.random() * 2 * Math.PI
       particles[index] = { sprite, radius, radians }
     }
@@ -28,7 +28,7 @@ register('paint', tick => {
   const height = window.innerHeight
   const cx = width / 2
   const cy = height / 2
-  const size = Math.min(cx, cy) / 2
+  const size = Math.min(cx, cy) - 4
 
   particles.forEach(({ sprite, radius, radians }) => {
     const adjustedRadians = radians + radius * tick / 1000
@@ -38,13 +38,23 @@ register('paint', tick => {
   })
 })
 
+register('fps', (fps, stability) => {
+  if (fps > 55 && stability > 5) {
+    const step = new Array(10).fill(null)
+    particles.push(...step)
+    fill()
+    document.getElementById('count').innerHTML = particles.length
+  }
+})
+
 window.addEventListener('load', start)
     </script>
   </head>
   <body>
     <h1>Particles v1</h1>
     <p class="description">
-      Using <code>div</code> and <code>Math</code>
+      Using <code>div</code> and <code>Math</code><br>
+      Number of particles : <span id="count"></span>
     </p>
   </body>
 </html>
