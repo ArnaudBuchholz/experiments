@@ -4,7 +4,6 @@ export const TRIGO_2PI_FACTOR = Math.floor(2 * Math.PI * TRIGO_FACTOR)
 const cosTable = []
 const sinTable = []
 
-
 export function sin (radian) {
   return sinTable[radian % TRIGO_2PI_FACTOR]
 }
