@@ -2,7 +2,30 @@
   position: absolute;
   width: 4px;
   height: 4px;
-  background-color: red;
   left: 100px;
   top: 100px;
+}
+
+.particle.g5 {
+  background-color: #ff6666;
+}
+
+.particle.g4 {
+  background-color: #ff0000;
+}
+
+.particle.g3 {
+  background-color: #bb0000;
+}
+
+.particle.g2 {
+  background-color: #990000;
+}
+
+.particle.g1 {
+  background-color: #770000;
+}
+
+.particle.g0 {
+  background-color: #550000;
 }
