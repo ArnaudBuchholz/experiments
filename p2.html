@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <title>P2</title>
+    <link rel="stylesheet" href="experiments.css">
+    <link rel="stylesheet" href="particles.css">
+    <script type="module" src="./display-fps.js"></script>
+    <script type="module">
+import { register, start } from './frame.js'
+
+const particles = new Array(100).fill(null)
+
+function fill () {
+  particles.forEach((_, index) => {
+    if (_ === null) {
+      const sprite = document.body.appendChild(document.createElement('div'))
+      const radius = Math.random()
+      sprite.className = `particle g${Math.floor(6 * radius)}`
+      const radians = Math.random() * 2 * Math.PI
+      particles[index] = { sprite, radius, radians }
+    }
+  })
+}
+
+fill()
+
+register('paint', tick => {
+  const width = window.innerWidth
+  const height = window.innerHeight
+  const cx = width / 2
+  const cy = height / 2
+  const size = Math.min(cx, cy) - 4
+
+  particles.forEach(({ sprite, radius, radians }) => {
+    const adjustedRadians = radians + radius * tick / 1000
+    const x = cx + size * radius * Math.cos(adjustedRadians)
+    const y = cy + size * radius * Math.sin(adjustedRadians)
+    sprite.setAttribute('style', `left: ${x}px; top: ${y}px;`)
+  })
+})
+
+register('fps', (fps, stability) => {
+  if (fps > 55 && stability > 5) {
+    const step = new Array(10).fill(null)
+    particles.push(...step)
+    fill()
+    document.getElementById('count').innerHTML = particles.length
+  }
+})
+
+window.addEventListener('load', start)
+    </script>
+  </head>
+  <body>
+    <h1>Particles v2</h1>
+    <p class="description">
+      Using <code>div</code> and fixed point maths<br>
+      Number of particles : <span id="count"></span>
+    </p>
+  </body>
+</html>
