@@ -14,9 +14,9 @@ function paint () {
   const ticks = tick - lastFpsDisplayTick
   if (ticks > 250) {
     const fps = Math.floor(1000 * lastFrameCount / ticks)
-    if (fps === lastFps) {
-      ++stability
-    } else {
+    if (lastFps === fps) {
+      stability += ticks
+    } else if (!lastFps || lastFps - 1 > fps || fps > lastFps + 1) {
       lastFps = fps
       stability = 0
     }
