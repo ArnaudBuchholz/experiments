@@ -39,7 +39,7 @@ register('paint', tick => {
 })
 
 register('fps', (fps, stability) => {
-  if (fps > 55 && stability > 5) {
+  if (fps > 55 && stability > 1000) {
     const step = new Array(10).fill(null)
     particles.push(...step)
     fill()
