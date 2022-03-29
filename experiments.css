@@ -15,3 +15,7 @@ div.fps::after {
   content: 'f/s';
   font-size: small;
 }
+
+div.fps.instable {
+  color: red;
+}
