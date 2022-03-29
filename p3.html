@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <title>P3</title>
+    <link rel="stylesheet" href="experiments.css">
+    <link rel="stylesheet" href="particles.css">
+    <script type="module" src="./display-fps.js"></script>
+    <script type="module">
+import { register, start } from './frame.js'
+import { prepare, sin, cos } from './fp-trigo.js'
+
+const FACTOR = 1024
+const fpTrigo = prepare(FACTOR)
+const particles = new Array(100).fill(null)
+let canvas
+let canvasCtx
+
+function fill () {
+  particles.forEach((_, index) => {
+    if (_ === null) {
+      const radius = Math.floor(Math.random() * FACTOR)
+      const radians = Math.floor(Math.random() * fpTrigo.factored2PI)
+      particles[index] = { radius, radians }
+    }
+  })
+}
+
+fill()
+
+register('paint', tick => {
+  const width = window.innerWidth
+  const height = window.innerHeight
+  canvas.width = width
+  canvas.height = height
+  const cx = width / 2
+  const cy = height / 2
+  const size = Math.min(cx, cy) - 4
+
+  canvasCtx.clearRect(0,0, width, height);
+  particles.forEach(({ radius, radians }) => {
+    const adjustedRadians = Math.floor(radians + radius * tick / 1000)
+    const x = cx + Math.floor(size * radius * cos(fpTrigo, adjustedRadians) / (fpTrigo.factor * FACTOR))
+    const y = cy + Math.floor(size * radius * sin(fpTrigo, adjustedRadians) / (fpTrigo.factor * FACTOR))
+
+    let pixelSize
+    if (radius > 5 * 1024 / 6) {
+      pixelSize = 4
+      canvasCtx.fillStyle = '#ff6666'
+    } else if (radius > 4 * 1024 / 6) {
+      pixelSize = 4
+      canvasCtx.fillStyle = '#ff0000'
+    } else if (radius > 3 * 1024 / 6) {
+      pixelSize = 3
+      canvasCtx.fillStyle = '#bb0000'
+    } else if (radius > 2 * 1024 / 6) {
+      pixelSize = 2
+      canvasCtx.fillStyle = '#990000'
+    } else if (radius > 1024 / 6) {
+      pixelSize = 1
+      canvasCtx.fillStyle = '#770000'
+    } else {
+      pixelSize = 1
+      canvasCtx.fillStyle = '#550000'
+    }
+    canvasCtx.fillRect(x, y, pixelSize, pixelSize)
+  })
+})
+
+register('fps', (fps, stability) => {
+  if (fps > 55 && stability > 1000) {
+    const step = new Array(100).fill(null)
+    particles.push(...step)
+    fill()
+    document.getElementById('count').innerHTML = particles.length
+  }
+})
+
+window.addEventListener('load', () => {
+  canvas = document.querySelector('canvas')
+  canvasCtx = canvas.getContext('2d')
+  start()
+})
+    </script>
+  </head>
+  <body>
+    <canvas style="position: absolute; top: 0px; left: 0px; z-index: -1"></canvas>
+    <h1>Particles v3</h1>
+    <p class="description">
+      Using <code>canvas</code> and fixed point maths<br>
+      Number of particles : <span id="count"></span>
+    </p>
+  </body>
+</html>
