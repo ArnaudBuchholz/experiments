@@ -6,16 +6,19 @@
     <script type="module" src="./display-fps.js"></script>
     <script type="module">
 import { register, start } from './frame.js'
+import { prepare, sin, cos } from './fp-trigo.js'
 
+const FACTOR = 1024
+const fpTrigo = prepare(FACTOR)
 const particles = new Array(100).fill(null)
 
 function fill () {
   particles.forEach((_, index) => {
     if (_ === null) {
       const sprite = document.body.appendChild(document.createElement('div'))
-      const radius = Math.random()
-      sprite.className = `particle g${Math.floor(6 * radius)}`
-      const radians = Math.random() * 2 * Math.PI
+      const radius = Math.floor(Math.random() * FACTOR)
+      sprite.className = `particle g${Math.floor(6 * radius / FACTOR)}`
+      const radians = Math.floor(Math.random() * fpTrigo.factored2PI)
       particles[index] = { sprite, radius, radians }
     }
   })
@@ -31,15 +34,15 @@ register('paint', tick => {
   const size = Math.min(cx, cy) - 4
 
   particles.forEach(({ sprite, radius, radians }) => {
-    const adjustedRadians = radians + radius * tick / 1000
-    const x = cx + size * radius * Math.cos(adjustedRadians)
-    const y = cy + size * radius * Math.sin(adjustedRadians)
+    const adjustedRadians = Math.floor(radians + radius * tick / 1000)
+    const x = cx + Math.floor(size * radius * cos(fpTrigo, adjustedRadians) / (fpTrigo.factor * FACTOR))
+    const y = cy + Math.floor(size * radius * sin(fpTrigo, adjustedRadians) / (fpTrigo.factor * FACTOR))
     sprite.setAttribute('style', `left: ${x}px; top: ${y}px;`)
   })
 })
 
 register('fps', (fps, stability) => {
-  if (fps > 55 && stability > 5) {
+  if (fps > 55 && stability > 1000) {
     const step = new Array(10).fill(null)
     particles.push(...step)
     fill()
