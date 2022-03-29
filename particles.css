@@ -1,31 +1,42 @@
 .particle {
   position: absolute;
-  width: 4px;
-  height: 4px;
   left: 100px;
   top: 100px;
+  border-radius: 50%;
 }
 
 .particle.g5 {
   background-color: #ff6666;
+  width: 4px;
+  height: 4px;
 }
 
 .particle.g4 {
   background-color: #ff0000;
+  width: 4px;
+  height: 4px;
 }
 
 .particle.g3 {
   background-color: #bb0000;
+  width: 3px;
+  height: 3px;
 }
 
 .particle.g2 {
   background-color: #990000;
+  width: 2px;
+  height: 2px;
 }
 
 .particle.g1 {
   background-color: #770000;
+  width: 1px;
+  height: 1px;
 }
 
 .particle.g0 {
   background-color: #550000;
+  width: 1px;
+  height: 1px;
 }
