@@ -5,7 +5,12 @@ window.addEventListener('load', () => {
   fps.className = 'fps'
   fps.innerHTML = '0'
   const title = document.title
-  register('fps', count => {
+  register('fps', (count, stability) => {
+    if (stability > 1000) {
+      fps.className = 'fps'
+    } else {
+      fps.className = 'fps instable'
+    }
     fps.innerHTML = count
     document.title = `${title} [${count}]`
   })
