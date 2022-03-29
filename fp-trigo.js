@@ -1,19 +1,24 @@
-export const TRIGO_FACTOR = 10000
-export const TRIGO_2PI_FACTOR = Math.floor(2 * Math.PI * TRIGO_FACTOR)
-
-const cosTable = []
-const sinTable = []
-
-export function sin (radian) {
-  return sinTable[radian % TRIGO_2PI_FACTOR]
+export function sin (trigo, radian) {
+  return trigo.sinTable[radian % trigo.factored2PI]
 }
 
-export function cos (radian) {
-  return cosTable[radian % TRIGO_2PI_FACTOR]
+export function cos (trigo, radian) {
+  return trigo.cosTable[radian % trigo.factored2PI]
 }
 
-for (let i = 0; i < TRIGO_2PI_FACTOR; ++i) {
-  const radian = i / TRIGO_FACTOR
-  cosTable[i] = Math.floor(TRIGO_FACTOR * Math.cos(radian))
-  sinTable[i] = Math.floor(TRIGO_FACTOR * Math.sin(radian))
+export function prepare (factor) {
+  const factored2PI = Math.floor(2 * Math.PI * factor + 1)
+  const cosTable = []
+  const sinTable = []
+  for (let factoredRadian = 0; factoredRadian < factored2PI; ++factoredRadian) {
+    const radian = factoredRadian / factor
+    cosTable[factoredRadian] = Math.floor(factor * Math.cos(radian))
+    sinTable[factoredRadian] = Math.floor(factor * Math.sin(radian))
+  }
+  return {
+    factor,
+    factored2PI,
+    cosTable,
+    sinTable
+  }
 }
